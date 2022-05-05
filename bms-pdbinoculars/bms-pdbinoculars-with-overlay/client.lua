@@ -20,22 +20,20 @@ local vision_state = 0 -- 0 is normal, 1 is nightmode, 2 is thermal vision
 
 --THREADS--
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
 
-        Citizen.Wait(10)
+       Wait(10)
 
-		local lPed = GetPlayerPed(-1)
+		local lPed = PlayerPedId()
 		local heli = GetVehiclePedIsIn(lPed)
 		
 		if helicam then
 
 			if not ( IsPedSittingInAnyVehicle( lPed ) ) then
-
-						Citizen.CreateThread(function()
-
-		                    TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
-							PlayAmbientSpeech1(GetPlayerPed(-1), "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
+						CreateThread(function()
+		                    			TaskStartScenarioInPlace(lPed, "WORLD_HUMAN_BINOCULARS", 0, 1)
+							PlayAmbientSpeech1(lPed, "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
 
 						end)
 
@@ -44,19 +42,14 @@ Citizen.CreateThread(function()
 
 					Wait(2000)
 
-					SetTimecycleModifier("heliGunCam")
-
+			SetTimecycleModifier("heliGunCam")
 			SetTimecycleModifierStrength(0.3)
-
 			local scaleform = RequestScaleformMovie("HELI_CAM")
-
 			while not HasScaleformMovieLoaded(scaleform) do
-
-				Citizen.Wait(10)
-
+				Wait(10)
 			end
 
-			local lPed = GetPlayerPed(-1)
+			local lPed = PlayerPedId()
 			local heli = GetVehiclePedIsIn(lPed)
 			local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
 
@@ -105,7 +98,7 @@ Citizen.CreateThread(function()
 				HideHUDThisFrame()
 
 				DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
-				Citizen.Wait(0)
+				Wait(0)
 
 			end
 
